@@ -25,6 +25,7 @@ class Article < ApplicationRecord
     # 独自
     validate :validate_title_and_content_length
 
+    has_many :comments,dependent: :destroy
     belongs_to :user
 
     def desplay_created_at

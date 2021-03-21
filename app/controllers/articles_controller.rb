@@ -8,6 +8,7 @@ class ArticlesController < ApplicationController
 
     def show
       # @article = Article.find(params[:id])
+      @comments = @article.comments
     end
 
     def new
@@ -44,7 +45,7 @@ class ArticlesController < ApplicationController
 
     def destroy
       # article = Article.find(params[:id])
-      article = current_user.articles.find(params[:id])
+      article = current_user.articles.fin d(params[:id])
       article.destroy!
       redirect_to root_path(@article),notice:'削除に成功しました'
     end
