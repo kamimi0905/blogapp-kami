@@ -2,12 +2,12 @@
 #
 # Table name: articles
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  content    :text             not null
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  user_id    :integer          not null
+#  user_id    :bigint           not null
 #
 # Indexes
 #
@@ -25,7 +25,9 @@ class Article < ApplicationRecord
     # 独自
     validate :validate_title_and_content_length
 
+    has_one_attached :eyecatch
     has_many :comments,dependent: :destroy
+    has_many :likes,dependent: :destroy
     belongs_to :user
 
     def desplay_created_at
@@ -34,6 +36,10 @@ class Article < ApplicationRecord
 
     def author_name
         user.display_name
+    end
+
+    def like_count
+        likes.count
     end
 
     private
