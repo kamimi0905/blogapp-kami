@@ -3,7 +3,6 @@
   "description": "This is blogapp",
   "keywords": [],
   "website": "",
-  "stack": "heroku-18",
   "repository": "https://github.com/kamimi0905/blogapp-kami",
   "env": {},
   "addons": [
