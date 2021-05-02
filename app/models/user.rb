@@ -25,8 +25,22 @@ class User < ApplicationRecord
   has_many :articles, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :favorite_articles, through: :likes,source: :article
-  has_one :profile, dependent: :destroy
 
+  # ====================自分がフォローしているユーザーとの関連 ===================================
+  # フォローする側のUserから見て、フォローされる側のUserを(中間テーブルを介して)集める。なので親はfollower_id(フォローされる側)
+  has_many :following_relationships, foreign_key: 'follower_id', class_name: 'Relationship', dependent: :destroy
+  # 中間テーブルを介して「following」モデルのUser(フォローされた側)を集めることを「followings」と定義
+  has_many :followings, through: :following_relationships, source: :following
+  # ========================================================================================
+
+  # ====================自分がフォローされるユーザーとの関連 ===================================
+  # フォローされる側のUserから見て、フォローしてくる側のUserを(中間テーブルを介して)集める。なので親はfollowing_id(フォローする側)
+  has_many :follower_relationships, foreign_key: 'following_id', class_name: 'Relationship', dependent: :destroy
+  # 中間テーブルを介して「follower」モデルのUser(フォローされた側)を集めることを「followers」と定義
+  has_many :followers, through: :follower_relationships, source: :follower
+  # ========================================================================================
+
+  has_one :profile, dependent: :destroy
   delegate :birthday,:age,:gender, to: :profile, allow_nil: true
 
   def has_written?(article)
@@ -42,6 +56,21 @@ class User < ApplicationRecord
     profile &.nickname || self.email.split('@').first
   end
 
+  def follow!(user)
+    user_id = get_user_id(user)
+    following_relationships.create!(following_id: user_id)
+  end
+
+  def unfollow!(user)
+    user_id = get_user_id(user)
+    relation = following_relationships.find_by!(following_id: user_id)
+    relation.destroy!
+  end
+
+  def has_followed?(user)
+    following_relationships.exists?(following_id: user.id)
+  end
+
   def prepare_profile
     profile || build_profile
   end
@@ -51,6 +80,15 @@ class User < ApplicationRecord
       profile.avatar
     else
       'default-avatar.png'
+    end
+  end
+
+  private
+  def get_user_id(user)
+    if user.is_a?(User)
+      user.id
+    else
+      user
     end
   end
 end
