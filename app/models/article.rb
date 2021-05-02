@@ -3,7 +3,6 @@
 # Table name: articles
 #
 #  id         :bigint           not null, primary key
-#  content    :text             not null
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -19,13 +18,9 @@ class Article < ApplicationRecord
     validates :title,format:{ with: /\A(?!\@)/}
 
     validates :content, presence: true
-    validates :content, length: {minimum: 10}
-    validates :content, uniqueness: true
-
-    # 独自
-    validate :validate_title_and_content_length
 
     has_one_attached :eyecatch
+    has_rich_text :content
     has_many :comments,dependent: :destroy
     has_many :likes,dependent: :destroy
     belongs_to :user
@@ -40,13 +35,5 @@ class Article < ApplicationRecord
 
     def like_count
         likes.count
-    end
-
-    private
-    def validate_title_and_content_length
-        char_count = self.title.length + self.content.length
-        if char_count <= 100
-            errors.add(:content, '100文字以上で入力！')
-        end
     end
 end
