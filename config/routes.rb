@@ -5,8 +5,8 @@ Rails.application.routes.draw do
 
   # resources :articles,only:[:show, :new, :create, :edit, :update, :destroy]
   resources :articles do
-    resources :comments, only:[:new, :create]
-    resource :like, only:[:create, :destroy]
+    resources :comments, only:[:index, :new, :create]
+    resource :like, only:[:show, :create, :destroy]
   end
 
   resources :accounts,only: [:show] do
