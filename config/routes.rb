@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   # resources :articles,only:[:show, :new, :create, :edit, :update, :destroy]
   resources :articles do
-    resources :comments, only:[:new, :create]
+    resources :comments, only:[:index, :new, :create]
     resource :like, only:[:show, :create, :destroy]
   end
 
