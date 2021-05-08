@@ -79,7 +79,7 @@ Rails.application.configure do
     :port => 587,
     :domain => 'smtp.sendgrid.net',
     :user_name => ENV['SENDGRID_USERNAME'],
-    :password => ENV['SENDGRID_PASSWORD'],
+    :password => ENV['SECRET_KEY_BASE'],
     :authentication => :plain
   }
 
