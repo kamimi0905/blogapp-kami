@@ -71,15 +71,13 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: "https://blogapp-pro.herokuapp.com/" }
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true 
-  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.smtp_settings = {
     :enable_starttls_auto => true,
     :address => "smtp.sendgrid.net",
     :port => 587,
-    :domain => 'smtp.sendgrid.net',
+    :domain => 'heroku.com',
     :user_name => ENV['SENDGRID_USERNAME'],
-    :password => ENV['SECRET_KEY_BASE'],
+    :password => ENV['SENDGRID_PASSWORD'],
     :authentication => :plain
   }
 
