@@ -70,7 +70,7 @@ Rails.application.configure do
   # the I18n.default_locale when a translation cannot be found).
 
   host = 'https://blogapp-pro.herokuapp.com/'
-  config.action_mailer.default_url_options = { host: host }
+  config.action_mailer.default_url_options = { :host => host }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :enable_starttls_auto => true,
