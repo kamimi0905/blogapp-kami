@@ -68,6 +68,21 @@ Rails.application.configure do
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
+
+  config.action_mailer.default_url_options = { host: "https://blogapp-pro.herokuapp.com/" }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true 
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,
+    :address => "smtp.sendgrid.net",
+    :port => 587,
+    :domain => 'smtp.sendgrid.net',
+    :user_name => ENV['SENDGRID_USERNAME'],
+    :password => ENV['SENDGRID_PASSWORD'],
+    :authentication => :plain
+  }
+
   config.i18n.fallbacks = true
 
   # Send deprecation notices to registered listeners.
