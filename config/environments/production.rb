@@ -72,10 +72,10 @@ Rails.application.configure do
   host = 'https://blogapp-pro.herokuapp.com/'
   config.action_mailer.default_url_options = { :host => host }
   config.action_mailer.delivery_method = :smtp
-  ActionMailer::Base.smtp_settings = {
+  config.action_mailer.smtp_settings = {
     :user_name => 'apikey',
     :password => ENV['SENDGRID_API_KEY'],
-    :domain => 'heroku.com',
+    :domain => 'smtp.sendgrid.net',
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,
